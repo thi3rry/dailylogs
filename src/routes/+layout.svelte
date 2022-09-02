@@ -1,4 +1,4 @@
-<div data-theme="lofi">
+<div data-theme="retro">
     <header>
         <Navigation/>
     </header>

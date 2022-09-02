@@ -1,16 +1,34 @@
-<button class="btn btn-xs btn-warning" on:click|preventDefault={debug}>debug</button>
-<span class="time">{formattedDate}</span>
-{#if details}
-    <details>
-        <summary><span class="summary">{summary}</span></summary>
-        <p>{details}</p>
-        {#if endDate}
-            <p>{formattedEndDate}</p>
+<div class="relative">
+
+    <button class="btn btn-xs btn-warning" style="--btn-text-case: none;" on:click|preventDefault={debug}>#{uuid}</button>
+    <span class="time">{formattedDate}</span>
+    {#if details}
+        <details>
+            <summary><span class="summary">{summary}</span></summary>
+            <p>{details}</p>
+            {#if endDate}
+                <p>{formattedEndDate}</p>
+            {/if}
+        </details>
+    {:else}
+        <span class="summary">{summary}</span>
+    {/if}
+    <div class="absolute inset-y-0 right-0">
+
+        {#if tags.length > 0}
+            {#each tags as tag}
+            <a class="badge" href={'/tags/'+tag}>#{tag}</a>
+            {/each}
         {/if}
-    </details>
-{:else}
-    <span class="summary">{summary}</span>
-{/if}
+        <slot name="lineEnd"></slot>
+    </div>
+</div>
+
+<script context="module">
+    export const parseTags = (text) => {
+        return [...new Set([...text.matchAll(/#([a-zA-Z0-9\-–]*)/g)].map(t => t[1]))]
+    }
+</script>
 <script>
 import dayjs from '../libs/dayjs.js';
 export let date = null;
@@ -18,6 +36,7 @@ export let summary = '';
 export let details;
 export let type;
 export let endDate = undefined;
+export let uuid;
 
 const debug = () => {
     alert(JSON.stringify($$props, null, '  '))
@@ -41,6 +60,8 @@ $: {
         formattedDate = `${dayjs(date).format('HH[h]mm:ss')}`;
     }
 }
+
+$: tags = parseTags(summary);
 </script>
 <style>
     .time { display: inline-block; min-width: 6rem;}
