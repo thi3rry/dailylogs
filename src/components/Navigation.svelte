@@ -10,7 +10,7 @@
             </label>
             <MainMenu tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52" />
         </div>
-        <a class="btn btn-ghost normal-case text-xl">DailyLogs</a>
+        <a class="btn btn-ghost normal-case text-xl" href="/">DailyLogs</a>
     </div>
     <div class="navbar-center hidden lg:flex">
         <MainMenu class="menu menu-horizontal p-0"/>
