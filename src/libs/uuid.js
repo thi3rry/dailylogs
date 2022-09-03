@@ -19,7 +19,7 @@ export function vanillaUuid() {
 const uid = new ShortUniqueId({
     dictionary: 'alphanum_lower'
 });
-uid.counter = browser ? parseInt(window.localStorage.getItem('uuid-counter'), 10) ?? 0 : 0;
+uid.counter = browser ? parseInt(window.localStorage.getItem('uuid-counter')?? 0, 10) : 0;
 export function uuid() {
     const generatedUuid = uid.seq();
     localStorage.setItem('uuid-counter', uid.counter);
