@@ -5,8 +5,6 @@
 
     export let defaultTag = '';
     export let summary = '';
-    export let items;
-    export let submit;
     const addItem = () => {
         let tag = '';
         if (summary === '') return;
@@ -24,7 +22,6 @@
         summary = '';
     }
 </script>
-<form class="add" on:submit|preventDefault>
+<form class="add" on:submit|preventDefault={addItem}>
     <input bind:value={summary} class="input input-bordered input-md w-full max-w-xs" />
-    <button on:click={addItem} class="btn">+ Ajouter</button>
 </form>
