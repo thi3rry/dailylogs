@@ -63,7 +63,7 @@ export let editSummary = '';
 export let editDate = '';
 const dispatch = createEventDispatcher();
 
-$: if (editable && editSummary === '') {
+$: if (editable) {
     editSummary = summary;
     editDate = dayjs(date).format('YYYY-MM-DD HH:mm');
 }
