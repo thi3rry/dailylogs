@@ -1,3 +1,24 @@
+<input type="checkbox" id="display-settings" class="modal-toggle" />
+<label for="display-settings" class="modal cursor-pointer">
+    <label class="modal-box relative" for="">
+        <h3 class="text-lg font-bold">Display settings</h3>
+        <hr/>
+        <div class="form-control">
+            <label class="cursor-pointer label" for="hide-futur">
+                <input type="checkbox" id="hide-futur" class="checkbox" bind:checked={hideFutur}/>
+                <span class="label-text">Masquer les événements du futur</span>
+            </label>
+        </div>
+    </label>
+</label>
+
+<div class="text-center">
+    {#if futurCount > 0 && hideFutur}
+        <label for="hide-futur">Afficher les événement futurs ({futurCount})</label>
+    {:else}
+        <label for="hide-futur">Masquer les événement futurs ({futurCount})</label>
+    {/if}
+</div>
 {#each groupedLogs as day}
     <div class="dayname">
         <h2>{day.label}</h2>
@@ -35,20 +56,30 @@
 
 <script>
     import {logs, groupDays, groupTags, parseTags} from "../libs/stores.js";
+    import dayjs from '../libs/dayjs.js'
     import LogLine from "./LogLine.svelte";
     import { navigating } from '$app/stores';
 
     export let tags = ['all'];
     export let groupBy = 'day';
+    export let hideFutur = true;
+    let futurCount = 0;
 
-    const filterByTags = () => {
-        if (tags.length === 0 || tags.includes('all')) {
-            return $logs;
+    const filterLogs = () => {
+        let filtered = $logs;
+        if (tags.length > 0 && !tags.includes('all')) {
+            filtered = [...$logs].filter(l => tags.filter(t => parseTags(l.summary).includes(t)).length > 0);
         }
-        return [...$logs].filter(l => tags.filter(t => parseTags(l.summary).includes(t)).length > 0);
+        futurCount = filtered.filter(l => dayjs(l.date).isAfter(dayjs(), 'day')).length;
+
+        if (hideFutur) {
+            filtered = filtered.filter(l => !dayjs(l.date).isAfter(dayjs(), 'day'))
+        }
+        return filtered;
     }
-    let filteredLogs = filterByTags();
+    let filteredLogs = filterLogs();
     let groupedLogs = [];
+    $: hideFutur ? filteredLogs = filterLogs() : filteredLogs = filterLogs()
     $: {
         if (groupBy === 'tag') {
             groupedLogs = groupTags(filteredLogs);
@@ -62,11 +93,11 @@
     }
 
     $: if (!$navigating) {
-        filteredLogs =  filterByTags();
+        filteredLogs =  filterLogs();
         groupedLogs = groupDays(filteredLogs);
     }
     logs.subscribe(val => {
-        filteredLogs =  filterByTags();
+        filteredLogs =  filterLogs();
         groupedLogs = groupDays(filteredLogs);
     })
 
