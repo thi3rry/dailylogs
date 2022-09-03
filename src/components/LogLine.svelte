@@ -29,7 +29,7 @@
                     </div>
                     <div class="form-group flex">
                         <label for="edit-date-{uuid}" class="label w-1/2">Date</label>
-                        <input type="datetime-local" class="input input-bordered" id="edit-date-{uuid}" bind:value={editDate}>
+                        <input type="datetime-local" class="input input-bordered" id="edit-date-{uuid}" bind:value={editDate} />
                     </div>
                     <button class="btn">Save</button>
                 </form>
