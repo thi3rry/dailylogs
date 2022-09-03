@@ -1,10 +1,10 @@
-<ul>
+<ul class="mt-5 text-center">
     <li class="inline-block mr-2">
-        <a href="/tags">Tous</a>
+        <a href="/tags">Tags</a>
     </li>
     {#each data as tag}
         <li class="inline-block mr-2">
-            <a href={'/tags/'+tag.urlSafeName}>#{tag.name}</a>
+            <a href={'/tags/'+tag.urlSafeName} class="badge badge-accent">#{tag.name}</a>
         </li>
     {/each}
 </ul>
