@@ -19,8 +19,8 @@
 {/each}
 
 <script>
-    import {logs, groupDays, groupTags} from "../libs/stores.js";
-    import LogLine, {parseTags} from "./LogLine.svelte";
+    import {logs, groupDays, groupTags, parseTags} from "../libs/stores.js";
+    import LogLine from "./LogLine.svelte";
     import { navigating } from '$app/stores';
 
     export let tags = ['all'];

@@ -2,17 +2,17 @@
     <li class="inline-block mr-2">
         <a href="/tags">Tous</a>
     </li>
-    {#each tags as tag}
+    {#each data as tag}
         <li class="inline-block mr-2">
-            <a href={'/tags/'+tag}>#{tag}</a>
+            <a href={'/tags/'+tag.urlSafeName}>#{tag.name}</a>
         </li>
     {/each}
 </ul>
 
 <script>
-    import {logs} from "../libs/stores.js";
-    import {parseTags} from '../components/LogLine.svelte'
+    import {logs, parseTags} from "../libs/stores.js";
     $: tags = $logs.reduce((tags, log) => {
         return [...new Set([...tags, ...parseTags(log.summary)])];
     }, []);
+    $: data = tags.map((t) => ({name: t, urlSafeName: encodeURIComponent(t)}));
 </script>

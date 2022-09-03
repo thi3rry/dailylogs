@@ -17,7 +17,11 @@ export const groupDays = (items) => {
     }, [])).sort((a, b) => b.dateSort < a.dateSort ? -1 : 1);
 }
 export const parseTags = (text) => {
-    return [...new Set([...text.matchAll(/#([a-zA-Z0-9\-–]*)/g)].map(t => t[1]))]
+    return [...new Set([
+        ...text.matchAll(/#([a-zA-Z0-9\-\/]+)/g),
+        ...text.matchAll(/#([a-zA-Z0-9\-]+)/g),
+        ...text.matchAll(/#[a-zA-Z0-9\-]+\/([a-zA-Z0-9\-]+)/g)
+    ].map(t => t[1]))]
 }
 
 export const groupTags = (items) => {

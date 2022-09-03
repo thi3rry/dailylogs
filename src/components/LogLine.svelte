@@ -24,13 +24,10 @@
     </div>
 </div>
 
-<script context="module">
-    export const parseTags = (text) => {
-        return [...new Set([...text.matchAll(/#([a-zA-Z0-9\-–]*)/g)].map(t => t[1]))]
-    }
-</script>
 <script>
 import dayjs from '../libs/dayjs.js';
+import {createEventDispatcher} from "svelte";
+import {parseTags} from '../libs/stores.js';
 export let date = null;
 export let summary = '';
 export let details;
