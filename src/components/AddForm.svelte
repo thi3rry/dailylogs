@@ -22,6 +22,9 @@
         summary = '';
     }
 </script>
-<form class="add" on:submit|preventDefault={addItem}>
-    <input bind:value={summary} class="input input-bordered input-md w-full max-w-xs" />
+<form class="add container mx-auto" on:submit|preventDefault={addItem}>
+    <div class="w-1/2 mx-auto">
+        <input bind:value={summary} class="input input-bordered input-md w-full" placeholder="Summary" />
+
+    </div>
 </form>
