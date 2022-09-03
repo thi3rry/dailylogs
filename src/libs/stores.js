@@ -15,15 +15,27 @@ export const groupDays = (items) => {
         return all;
     }, []));
 }
+export const parseTags = (text) => {
+    return [...new Set([...text.matchAll(/#([a-zA-Z0-9\-–]*)/g)].map(t => t[1]))]
+}
+
+export const groupTags = (items) => {
+    return Object.values(items.reduce((all, item) => {
+        const itemTags = parseTags(item.summary);
+        return {...all, ...Object.fromEntries(itemTags.map(t => [t, {
+            ...all[t],
+            label: t,
+            items: [...(all[t]?.items ?? []), item].sort((a, b) => b.date < a.date ? -1 : 1)
+        }]))};
+    }, []));
+}
 
 
 const storageLogs = [...JSON.parse(browser ? window.localStorage.getItem('logs') ?? "[]" : "[]")];
 export const logs = writable(storageLogs);
-export let logsByDays = writable(groupDays(storageLogs));
 
 logs.subscribe(val => {
     if (browser) {
         window.localStorage.setItem('logs', JSON.stringify(val))
     }
-    logsByDays.set(groupDays(val));
 });

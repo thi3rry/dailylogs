@@ -1,6 +1,6 @@
 <AddForm defaultTag={data.tag} />
+<TagList/>
 <LogList tags={[data.tag]}/>
-<a href="/">Plus de tags</a>
 <script context="module">
     /** @type {import('./$types').PageLoad} */
     export function load({ params }) {
@@ -14,6 +14,7 @@
     import LogList from "../../../components/LogList.svelte";
     import AddForm from "../../../components/AddForm.svelte";
     import { navigating } from '$app/stores';
+    import TagList from "../../../components/TagList.svelte";
 
     /** @type {import('./$types').PageData} */
     export let data;

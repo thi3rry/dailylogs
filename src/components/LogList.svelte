@@ -1,4 +1,4 @@
-{#each logsByDays as day}
+{#each groupedLogs as day}
     <div class="dayname">
         <h2>{day.label}</h2>
         <hr/>
@@ -19,12 +19,12 @@
 {/each}
 
 <script>
-    import {logs, groupDays} from "../libs/stores.js";
+    import {logs, groupDays, groupTags} from "../libs/stores.js";
     import LogLine, {parseTags} from "./LogLine.svelte";
     import { navigating } from '$app/stores';
 
     export let tags = ['all'];
-    console.log(tags);
+    export let groupBy = 'day';
 
     const filterByTags = () => {
         if (tags.length === 0 || tags.includes('all')) {
@@ -33,15 +33,26 @@
         return [...$logs].filter(l => tags.filter(t => parseTags(l.summary).includes(t)).length > 0);
     }
     let filteredLogs = filterByTags();
-    let logsByDays = groupDays(filteredLogs);
+    let groupedLogs = [];
+    $: {
+        if (groupBy === 'tag') {
+            groupedLogs = groupTags(filteredLogs);
+        }
+        else if (groupBy === 'day') {
+            groupedLogs = groupDays(filteredLogs);
+        }
+        else {
+            groupedLogs = groupDays(filteredLogs);
+        }
+    }
 
     $: if (!$navigating) {
         filteredLogs =  filterByTags();
-        logsByDays = groupDays(filteredLogs);
+        groupedLogs = groupDays(filteredLogs);
     }
     logs.subscribe(val => {
         filteredLogs =  filterByTags();
-        logsByDays = groupDays(filteredLogs);
+        groupedLogs = groupDays(filteredLogs);
     })
 
     let days = [];
