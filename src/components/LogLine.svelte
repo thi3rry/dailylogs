@@ -41,7 +41,7 @@
 
         {#if tags.length > 0}
             {#each tags as tag}
-            <a class="badge" href={'/tags/'+tag}>#{tag}</a>
+            <a class="badge" href={'/tags/'+encodeURIComponent(tag)}>#{tag}</a>
             {/each}
         {/if}
         <slot name="lineEnd"></slot>
