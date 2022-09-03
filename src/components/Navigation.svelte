@@ -1,5 +1,6 @@
 <script>
     import MainMenu from "./MainMenu.svelte";
+    import DevelModal from "./dev/DevelModal.svelte";
 </script>
 
 <div class="navbar bg-base-100">
@@ -16,7 +17,9 @@
         <MainMenu class="menu menu-horizontal p-0"/>
     </div>
     <div class="navbar-end">
-        <a class="btn">Get started</a>
+        <DevelModal id="dev-modal">
+            <label for="dev-modal" class="link link-hover font-mono px-2">debug</label>
+        </DevelModal>
     </div>
 </div>
 <style>
