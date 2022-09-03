@@ -65,7 +65,7 @@ const dispatch = createEventDispatcher();
 
 $: if (editable && editSummary === '') {
     editSummary = summary;
-    editDate = date;
+    editDate = dayjs(date).format('YYYY-MM-DD HH:mm');
 }
 
 const debug = () => {
