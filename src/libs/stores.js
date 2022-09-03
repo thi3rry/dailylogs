@@ -6,6 +6,7 @@ export const groupDays = (items) => {
         const day = all[dayjs(item.date).format('YYYY-MM-DD')] || {
             label: dayjs(item.date).format('dddd DD MMMM'),
             date: dayjs(item.date).format('YYYY-MM-DD'),
+            dateSort: parseInt(dayjs(item.date).format('YYYYMMDD'), 10),
             items: []
         };
         all[dayjs(item.date).format('YYYY-MM-DD')] = {
@@ -13,7 +14,7 @@ export const groupDays = (items) => {
             items: [...day.items, item].sort((a, b) => b.date < a.date ? -1 : 1)
         };
         return all;
-    }, []));
+    }, [])).sort((a, b) => b.dateSort < a.dateSort ? -1 : 1);
 }
 export const parseTags = (text) => {
     return [...new Set([...text.matchAll(/#([a-zA-Z0-9\-–]*)/g)].map(t => t[1]))]
@@ -27,7 +28,7 @@ export const groupTags = (items) => {
             label: t,
             items: [...(all[t]?.items ?? []), item].sort((a, b) => b.date < a.date ? -1 : 1)
         }]))};
-    }, []));
+    }, [])).sort((a, b) => a.label < b.label ? -1 : 1);
 }
 
 
